@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 
 const withTitleUpdate = (WrappedComponent) => {
-  const HOC = (props) => {
+  const WithTitle = (props) => {
     useEffect(() => {
-      document.title = WrappedComponent.name || 'Component';
+      const title = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+      document.title = title;
     }, []);
 
     return <WrappedComponent {...props} />;
   };
 
-  return HOC;
+  WithTitle.displayName = `WithTitleUpdate(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
+  return WithTitle;
 };
 
 export default withTitleUpdate;

@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 
 const withLogger = (WrappedComponent) => {
-  const HOC = (props) => {
+  const WithLogger = (props) => {
     useEffect(() => {
-      console.log('Component Rendered');
+      console.log(`Component Rendered: ${WrappedComponent.displayName || WrappedComponent.name || 'Component'}`);
     }, []);
 
     return <WrappedComponent {...props} />;
   };
 
-  return HOC;
+  WithLogger.displayName = `WithLogger(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
+  return WithLogger;
 };
 
 export default withLogger;
