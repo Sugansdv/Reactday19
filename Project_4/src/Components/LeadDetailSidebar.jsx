@@ -1,18 +1,22 @@
 import React from "react";
 
 export default function LeadDetailSidebar({ lead, onClose }) {
+  if (!lead) return null;
+
   return (
-    <div className="card border-primary shadow">
-      <div className="card-header d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">Lead Detail</h5>
-        <button className="btn btn-sm btn-danger" onClick={onClose}>×</button>
-      </div>
-      <div className="card-body">
-        <p><strong>Name:</strong> {lead.name}</p>
-        <p><strong>Email:</strong> {lead.email}</p>
-        <p><strong>Status:</strong> {lead.status}</p>
-        <p><strong>Source:</strong> {lead.source}</p>
-      </div>
+    <div
+      className="position-fixed top-0 end-0 bg-light border-start p-4 shadow"
+      style={{ width: "300px", height: "100vh", zIndex: 1050 }}
+    >
+      <button className="btn btn-sm btn-outline-danger mb-3" onClick={onClose}>
+        Close
+      </button>
+      <h5>Lead Details</h5>
+      <hr />
+      <p><strong>Name:</strong> {lead.name}</p>
+      <p><strong>Email:</strong> {lead.email}</p>
+      <p><strong>Company:</strong> {lead.company}</p>
+      <p><strong>Status:</strong> {lead.status}</p>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import EditLead from "./Pages/EditLead";
 import Deals from "./Pages/Deals";
 import Contacts from "./Pages/Contacts";
 import Settings from "./Pages/Settings";
+import Login from "./Pages/Login";
 
 import withPermissions from "./hoc/withPermissions";
 
@@ -21,18 +22,17 @@ export default function App() {
       <Navbar />
       <div className="container mt-4">
         <Routes>
-          {/* ✅ Nested Routes for Leads */}
           <Route path="/leads" element={<LeadsLayout />}>
             <Route index element={<LeadsList />} />
             <Route path=":id/edit" element={<EditLeadWithPermission />} />
           </Route>
 
-          {/* Other Top-Level Routes */}
           <Route path="/deals" element={<Deals />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/login" element={<Login />} />
 
-          <Route path="*" element={<h4>404 - Page Not Found</h4>} />
+          <Route path="*" element={<h4>CRM Dashboard. Get started by managing your leads, deals, contacts, and settings.</h4>} />
         </Routes>
       </div>
     </Router>

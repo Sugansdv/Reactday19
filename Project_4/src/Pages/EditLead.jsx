@@ -1,40 +1,63 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "../axiosInstance";
+import { useParams, useNavigate } from "react-router-dom";
+import axiosInstance from "../axiosInstance";
 
-function EditLead() {
+export default function EditLead() {
   const { id } = useParams();
-  const [lead, setLead] = useState({ name: "", email: "" });
+  const navigate = useNavigate();
+  const [lead, setLead] = useState({ name: "", email: "", company: "", status: "" });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`/leads/${id}`).then((res) => setLead(res.data));
-  }, [id]);
+    axiosInstance.get(`/leads/${id}`)
+      .then((res) => {
+        setLead(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        alert("Lead not found");
+        navigate("/leads");
+      });
+  }, [id, navigate]);
+
+  const handleChange = (e) => {
+    setLead({ ...lead, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`/leads/${id}`, lead).then(() => alert("Lead updated!"));
+    axiosInstance.put(`/leads/${id}`, lead)
+      .then(() => {
+        alert("Lead updated successfully!");
+        navigate("/leads");
+      })
+      .catch(() => alert("Update failed"));
   };
+
+  if (loading) return <div className="text-center mt-5">Loading...</div>;
 
   return (
     <div className="container mt-4">
       <h3>Edit Lead</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="form-control my-2"
-          value={lead.name}
-          onChange={(e) => setLead({ ...lead, name: e.target.value })}
-          placeholder="Name"
-        />
-        <input
-          className="form-control my-2"
-          value={lead.email}
-          onChange={(e) => setLead({ ...lead, email: e.target.value })}
-          placeholder="Email"
-        />
-        <button className="btn btn-success" type="submit">Update</button>
+      <form onSubmit={handleSubmit} className="mt-3">
+        <div className="mb-3">
+          <label>Name</label>
+          <input name="name" className="form-control" value={lead.name} onChange={handleChange} required />
+        </div>
+        <div className="mb-3">
+          <label>Email</label>
+          <input name="email" className="form-control" value={lead.email} onChange={handleChange} required />
+        </div>
+        <div className="mb-3">
+          <label>Company</label>
+          <input name="company" className="form-control" value={lead.company} onChange={handleChange} required />
+        </div>
+        <div className="mb-3">
+          <label>Status</label>
+          <input name="status" className="form-control" value={lead.status} onChange={handleChange} required />
+        </div>
+        <button type="submit" className="btn btn-primary">Update Lead</button>
       </form>
     </div>
   );
 }
-
-export default EditLead;

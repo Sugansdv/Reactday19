@@ -1,43 +1,72 @@
 import React, { useEffect, useState } from "react";
-import axios from "../axiosInstance"; 
+import { Link } from "react-router-dom";
+import axiosInstance from "../axiosInstance";
+import LeadDetailSidebar from "../Components/LeadDetailSidebar";
 
 export default function LeadsList() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [selectedLead, setSelectedLead] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("/users") 
+    axiosInstance.get("/leads")
       .then((res) => {
-        console.log("✅ API data:", res.data);
-        setLeads(res.data.data || res.data); 
+        setLeads(res.data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error("❌ Error loading leads:", err.message);
-        setError(err.message);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="alert alert-info">Loading leads...</div>;
-  if (error) return <div className="alert alert-danger">Error: {error}</div>;
+  const handleView = (lead) => setSelectedLead(lead);
+  const handleClose = () => setSelectedLead(null);
+
+  if (loading) return <div className="text-center mt-5">Loading leads...</div>;
 
   return (
-    <div>
-      <h3>Leads</h3>
+    <div className="container mt-4">
+      <h3 className="mb-4">Leads</h3>
       {leads.length === 0 ? (
-        <div className="alert alert-warning">No leads found.</div>
+        <p>No leads found.</p>
       ) : (
-        <ul className="list-group">
-          {leads.map((lead) => (
-            <li key={lead.id} className="list-group-item">
-              <strong>{lead.name || `${lead.first_name} ${lead.last_name}`}</strong> <br />
-              {lead.email}
-            </li>
-          ))}
-        </ul>
+        <table className="table table-bordered table-hover">
+          <thead className="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leads.map((lead) => (
+              <tr key={lead.id}>
+                <td>{lead.name}</td>
+                <td>{lead.email}</td>
+                <td>{lead.company}</td>
+                <td>{lead.status}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-info me-2"
+                    onClick={() => handleView(lead)}
+                  >
+                    View
+                  </button>
+                  <Link
+                    to={`/leads/${lead.id}/edit`}
+                    className="btn btn-sm btn-warning"
+                  >
+                    Edit
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {selectedLead && (
+        <LeadDetailSidebar lead={selectedLead} onClose={handleClose} />
       )}
     </div>
   );
