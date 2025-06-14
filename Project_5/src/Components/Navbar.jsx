@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom"; // ✅ Import NavLink
+import { NavLink } from "react-router-dom"; 
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import "../assets/Navbar.css";
@@ -19,7 +19,7 @@ const Navbar = () => {
       <nav className="navbar d-flex justify-content-between align-items-center px-4 py-2 bg-dark">
         <div className="logo">
           <NavLink to="/leads" className="logo-text text-white text-decoration-none fs-4">
-            CRM
+            JobPortal
           </NavLink>
         </div>
 

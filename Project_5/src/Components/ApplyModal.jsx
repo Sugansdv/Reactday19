@@ -12,7 +12,6 @@ export default function ApplyModal({ job, onClose }) {
       return;
     }
 
-    // Simulate storing application data (could also send via axios)
     const applications = JSON.parse(localStorage.getItem("applications")) || [];
     const user = JSON.parse(localStorage.getItem("user"));
 
