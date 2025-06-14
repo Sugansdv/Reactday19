@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="logo ms-5">
-        <NavLink to="/" className="logo-text">SDV_Mart</NavLink>
+        <NavLink to="/" className="logo-text">DV_Shop</NavLink>
       </div>
 
       <ul className="nav-links me-5">

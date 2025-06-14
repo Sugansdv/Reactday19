@@ -1,12 +1,12 @@
 const Home = () => (
   <div className="container py-5 text-center">
-    <h2 className="mb-3 fw-bold">Welcome to <span className="text-primary">SDV_Mart</span></h2>
+    <h2 className="mb-3 fw-bold">Welcome to <span className="text-primary">DV_Shop</span></h2>
     <p className="lead text-muted mb-4">Your one-stop shop for the latest Products.</p>
 
     <div className="row justify-content-center">
       <div className="col-md-8">
         <img
-          src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" // sample tech banner
+          src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" 
           alt="Gadgets"
           className="img-fluid rounded shadow-sm mb-4"
         />
